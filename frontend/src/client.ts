@@ -1,6 +1,6 @@
-import axios, { AxiosRequestConfig, Method } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse, Method } from 'axios';
 
-import { Contact, ListContactsParams } from './types';
+import { ListContactsParams, ListContactsResp, NewContact } from './types';
 
 // TODO: Move this to an env config/settings
 const apiBaseEndpoint = 'http://localhost:3000/v0';
@@ -14,8 +14,8 @@ export class IndiContactClient {
     });
   }
 
-  async _makeRequest<D>(method: Method, path: string, data?: D) {
-    const request: AxiosRequestConfig<D> = {
+  async _makeRequest<TReq, TResp>(method: Method, path: string, data?: TReq) {
+    const request: AxiosRequestConfig<TReq> = {
       url: path,
       method,
     };
@@ -28,15 +28,22 @@ export class IndiContactClient {
       }
     }
 
-    const response = await this._axios.request<D>(request);
+    const response = await this._axios.request<TReq, AxiosResponse<TResp>>(request);
     return response.data;
   }
 
-  async createContact(newContact: Contact) {
+  async createContact(newContact: NewContact) {
     return this._makeRequest('POST', '/contacts', newContact);
   }
 
   async listContacts(params: ListContactsParams) {
-    return this._makeRequest<any>('GET', '/contacts', params);
+    const resp = await this._makeRequest<ListContactsParams, ListContactsResp | string>('GET', '/contacts', params);
+    if (params.format === 'csv') {
+      return resp; // string
+    } else {
+      const rawResult = (resp as ListContactsResp).result;
+      // TODO: Define a more dynamic deserialization strategy if needed
+      return { result: rawResult.map((contact) => ({ ...contact, lastModified: new Date(contact.lastModified) })) };
+    }
   }
 };
