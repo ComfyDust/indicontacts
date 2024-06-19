@@ -102,6 +102,8 @@ export function SignupForm() {
 
   return (
     <form onSubmit={handleSubmit}>
+      <header>Signup</header>
+
       {/* Email */}
       {buildTextField('Email', 'email')}
       <br />

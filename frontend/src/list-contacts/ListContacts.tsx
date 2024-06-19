@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 
-import { Button, Checkbox, CircularProgress, FormControlLabel, FormGroup, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from '@mui/material';
+import {
+  Button, Checkbox, FormControlLabel, FormGroup, LinearProgress, Paper,
+  Table, TableBody, TableCell, TableContainer, TableHead, TableRow
+} from '@mui/material';
 import { DateTimePicker } from '@mui/x-date-pickers';
 import dayjs, { Dayjs } from 'dayjs';
 import _cloneDeep from 'lodash/cloneDeep';
@@ -59,16 +62,18 @@ export function ListContacts() {
 
   return (
     <>
+      <header style={{ margin: '5px' }}>Retrieve Contacts</header>
+
       {/** Time Range */}
       <DateTimePicker label="Start Time" disabled={formData.getAll} onChange={setField('startTime')} />
       <DateTimePicker label="End Time" disabled={formData.getAll} onChange={setField('endTime')} />
 
       {/** Submission Buttons */}
       <Button id={listBtnId} onClick={handleClick} variant="contained" color="primary" disabled={isProcessing} style={{ margin: '5px' }}>
-        List Contacts {isProcessing && <CircularProgress />}
+        List Contacts
       </Button>
       <Button id={exportBtnId} onClick={handleClick} variant="contained" color="primary" disabled={isProcessing}>
-        Export Contacts {isProcessing && <CircularProgress />}
+        Export Contacts
       </Button>
 
       {/** Get All Checkbox */}
@@ -111,6 +116,8 @@ export function ListContacts() {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {isProcessing && <LinearProgress />}
     </>
   );
 }
