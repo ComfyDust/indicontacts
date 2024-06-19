@@ -20,3 +20,9 @@ export const contactValidator = checkSchema({
   'address.state': { isString: true, notEmpty: true, isIn: { options: [usStates] } },
   'address.zip': { isString: true, notEmpty: true, isNumeric: true, isLength: { options: { min: 5, max: 5 } } },
 });
+
+export const listContactsParamValidator = checkSchema({
+  format: { isIn: { options: [['json', 'csv']] }, optional: true },
+  startTime: { isISO8601: true, optional: true },
+  endTime: { isISO8601: true, optional: true },
+});

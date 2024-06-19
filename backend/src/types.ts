@@ -20,3 +20,9 @@ export interface DbContact extends Contact {
   _id: string; // email
   lastModified: Date;
 };
+
+export type ListContactsParams = {
+  format?: 'json' | 'csv';
+  startTime?: string; // ISO 8601
+  endTime?: string; // ISO 8601
+};

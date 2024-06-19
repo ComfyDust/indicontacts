@@ -13,3 +13,9 @@ export type Contact = {
     zip: string;
   };
 };
+
+export type ListContactsParams = {
+  format?: 'json' | 'csv';
+  startTime?: Date;
+  endTime?: Date;
+};

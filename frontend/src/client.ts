@@ -1,6 +1,6 @@
 import axios, { AxiosRequestConfig, Method } from 'axios';
 
-import { Contact } from './types';
+import { Contact, ListContactsParams } from './types';
 
 // TODO: Move this to an env config/settings
 const apiBaseEndpoint = 'http://localhost:3000/v0';
@@ -36,7 +36,7 @@ export class IndiContactClient {
     return this._makeRequest('POST', '/contacts', newContact);
   }
 
-  async listContacts(format: 'json' | 'csv' = 'json') {
-    return this._makeRequest<any>('GET', '/contacts', { format });
+  async listContacts(params: ListContactsParams) {
+    return this._makeRequest<any>('GET', '/contacts', params);
   }
 };

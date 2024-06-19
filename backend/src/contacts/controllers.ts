@@ -1,4 +1,4 @@
-import { Contact, Controller } from '../types.js';
+import { Contact, Controller, ListContactsParams } from '../types.js';
 import { contactService } from './service.js';
 
 export const createContact: Controller<Contact> = async(newContact, res) => {
@@ -6,8 +6,9 @@ export const createContact: Controller<Contact> = async(newContact, res) => {
   res.status(204).json({ result: createResult });
 };
 
-export const listContacts: Controller = async ({ format }, res) => {
-  const listResult = await contactService.list(format);
+export const listContacts: Controller<ListContactsParams> = async ({ format, startTime, endTime }, res) => {
+  const safeDate = (isoTime: string | undefined) => !!isoTime ? new Date(isoTime) : undefined;
+  const listResult = await contactService.list(safeDate(startTime), safeDate(endTime), format);
   if (format === 'csv') {
     res.attachment('contacts.csv').send(listResult);
   } else {

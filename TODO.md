@@ -1,12 +1,10 @@
-Proof of Concept
-
-- Add support for filtering CSV export by signup time
-
 Requirement Clarifications
 
+- Which browsers and devices should be targeted?
 - What are some example scenarios where new duplicate contacts may need to be merged and what merge strategy should be used? Is a simple upsert sufficient since all contact fields are required?
     - Follow-up: (backend) Review merge logic in `ContactService.create()`
 - Is populating `updatedAt` on upsert sufficient to track signup time or is another field needed? (I.e., Will the API be used by anything other than the signup process?)
+- What are some example use cases for filtering by signup time (requirement 3)? What level of granularity is needed?
 
 House Keeping
 
